@@ -46,7 +46,7 @@ date_default_timezone_set('Asia/Kolkata');
                $Mail->SMTPSecure  = "ssl"; //Secure conection
                $Mail->Port        = 465; // set the SMTP port
                $Mail->Username    = 'destructerdavid@gmail.com'; // SMTP account username
-               $Mail->Password    = 'destructer210'; // SMTP account password
+               $Mail->Password    = $_ENV["SMTP_PASSWORD"]; // SMTP account password
                $Mail->Priority    = 1; // Highest priority - Email priority (1 = High, 3 = Normal, 5 = low)
                $Mail->CharSet     = 'UTF-8';
                $Mail->Encoding    = '8bit';
