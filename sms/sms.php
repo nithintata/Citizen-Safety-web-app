@@ -4,8 +4,8 @@ use Twilio\Rest\Client;
 
 require '../includes/dbh.inc.php';
 
-$account_sid = 'AC9f27127d5b477899e93cb18cfce4288e';
-$auth_token = '2739c17c47795fba4f2da7182a96d3a9';
+$account_sid = $_ENV["ACCOUNT_SID"];
+$auth_token = $_ENV["AUTH_TOKEN"];
 
 if (isset($_POST['help'])) {
   $user = $_POST['userUid'];
