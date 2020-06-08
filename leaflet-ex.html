@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Example Map</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+
+    <style media="screen">
+      #my-map{height : 400px;width : 50%;}
+    </style>
+  </head>
+  <body>
+    <div class="" id = "my-map">
+
+    </div>
+  </body>
+</html>
+<!--emerald-v8, streets-v11-->
+<script>
+    var map = L.map('my-map').setView([22.8046, 86.2029], 13);
+  //  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2loY29ubmVjdCIsImEiOiJjazY2bXVlZ3gxZjNrM29vNG96Y3B6dGd0In0.AJ7GNmESyePCWI09ehbpbQ', {
+    attribution: 'Map data © Nithin',
+    maxZoom: 18
+    }).addTo(map);
+
+    //marker
+    L.marker([22.8046, 86.2029]).addTo(map).bindPopup("<b>Jamshedpur</b>")
+
+    //circle
+    L.circle([22.7766, 86.1437], 500, {
+      color: 'red',
+      fillOpacity: 0.6,
+    }).addTo(map).bindPopup("<b>Danger Zone!</b>")
+
+    L.circle([22.8046, 86.2029], 500, {
+      color: 'green',
+      fillOpacity: 0.6,
+    }).addTo(map).bindPopup("<b>Safe Zone!</b>")
+
+    function onMapClick(e) {
+      L.popup().setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
+    }
+    map.on('click', onMapClick);
+
+    map.locate({setView: true, watch: true})
+        .on('locationfound', function(e){
+            var marker = L.marker([e.latitude, e.longitude]).bindPopup('Your are here :)').openPopup();
+            var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
+                weight: 1,
+                color: 'blue',
+                //fillColor: '#cacaca',
+                fillOpacity: 0.3
+            });
+            map.addLayer(marker);
+            map.addLayer(circle);
+        })
+       .on('locationerror', function(e){
+            console.log(e);
+            alert("Location access denied.");
+        });
+</script>
